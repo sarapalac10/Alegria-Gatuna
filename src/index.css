@@ -1,0 +1,56 @@
+/* ── Fuentes ─────────────────────────────── */
+/* Fredoka One → títulos y marca             */
+/* Nunito      → cuerpo y UI                 */
+
+/* ── Variables de diseño ────────────────── */
+:root {
+  --naranja:    #E8572A;
+  --naranja-dark: #c94820;
+  --naranja-soft: #FFF3EC;
+  --verde:      #3A6B2A;
+  --verde-vivo: #5AA03A;
+  --verde-soft: #E4F2DC;
+  --verde-light: #EFF8E8;
+  --amarillo:   #F5C842;
+  --amarillo-soft: #FEF6DC;
+  --crema:      #F7F2EA;
+  --crema-border: #e8e0d4;
+  --texto:      #2D2A22;
+  --texto-muted: #6a6050;
+  --texto-hint: #8a8070;
+
+  --font-title: 'Fredoka One', cursive;
+  --font-body:  'Nunito', sans-serif;
+
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  18px;
+  --radius-xl:  22px;
+  --radius-pill: 100px;
+}
+
+/* ── Reset ───────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--crema);
+  color: var(--texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Tipografía base ─────────────────────── */
+h1, h2, h3, h4 { font-family: var(--font-title); line-height: 1.2; }
+
+/* ── Botones base ────────────────────────── */
+button { cursor: pointer; font-family: var(--font-body); }
+
+/* ── Scrollbar suave ─────────────────────── */
+html { scroll-behavior: smooth; }
+
+/* ── Utilidades ──────────────────────────── */
+.page-container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 28px;
+}
