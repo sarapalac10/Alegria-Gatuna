@@ -40,6 +40,17 @@ export default function AdminAdopciones() {
     setSolicitudes(prev => prev.map(x => x.id === s.id ? { ...x, etapa: nuevaEtapa } : x))
     if (detalle?.id === s.id) setDetalle(d => ({ ...d, etapa: nuevaEtapa }))
     await supabase.from('solicitudes_adopcion').update({ etapa: nuevaEtapa }).eq('id', s.id)
+
+    // Email al adoptante sobre el avance
+    await supabase.functions.invoke('avance-etapa', {
+      body: {
+        nombre:       s.nombre,
+        correo:       s.correo,
+        animalNombre: s.animales?.nombre || 'el animalito',
+        etapa:        nuevaEtapa,
+      },
+    })
+
     if (nuevaEtapa === 'entrega' && s.animal_id) {
       await supabase.from('animales').update({ estado: 'adoptado' }).eq('id', s.animal_id)
     }
