@@ -69,15 +69,27 @@
 }
 .carouselTrack {
   display: flex;
-  gap: 14px;
+  gap: 20px;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
   align-items: flex-start;
 }
 .igSlide {
   flex-shrink: 0;
-  width: calc((100% - 28px) / 3);
+  width: calc((100% - 40px) / 3);
   min-width: 0;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+/* Fuerza el embed a respetar el ancho del slide */
+.igSlide .instagram-media {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+.igSlide iframe {
+  width: 100% !important;
+  min-width: 0 !important;
 }
 
 .dots {
@@ -100,4 +112,16 @@
   background: var(--naranja);
   width: 20px;
   border-radius: 100px;
+}
+
+@media (max-width: 640px) {
+  .heroCard { flex-direction: column; padding: 1.5rem; gap: 1rem; text-align: center; }
+  .heroTitle { font-size: 24px; }
+  .heroDesc { max-width: 100%; }
+  .heroArt { font-size: 56px; order: -1; }
+  .impactoGrid { grid-template-columns: repeat(2, 1fr); }
+  .galeriaGrid { grid-template-columns: repeat(2, 1fr); }
+  .testiHeader { flex-direction: column; gap: 10px; }
+  .igSlide { width: calc(100% - 0px); }
+  .carouselTrack { gap: 12px; }
 }

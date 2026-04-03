@@ -28,3 +28,9 @@
 .submitBtn { background:var(--verde); color:white; border:none; padding:12px 24px; border-radius:var(--radius-pill); font-size:14px; font-weight:700; font-family:var(--font-body); transition:background .15s; }
 .submitBtn:hover:not(:disabled) { background:#2A5A1A; }
 .submitBtn:disabled { opacity:.6; cursor:not-allowed; }
+
+@media (max-width: 640px) {
+  .tiposGrid { grid-template-columns: 1fr; }
+  .twoCol { grid-template-columns: 1fr; }
+  .card { padding: 1.25rem; }
+}

@@ -54,3 +54,9 @@ html { scroll-behavior: smooth; }
   margin: 0 auto;
   padding: 24px 28px;
 }
+
+@media (max-width: 640px) {
+  .page-container {
+    padding: 16px;
+  }
+}

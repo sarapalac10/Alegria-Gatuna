@@ -1,7 +1,7 @@
 .topbar {
   background: white;
   border-bottom: 0.5px solid var(--crema-border);
-  padding: 13px 28px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,18 +15,24 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+  flex-shrink: 0;
 }
 .logoImg {
-  height: 48px;
+  height: 44px;
   width: auto;
   object-fit: contain;
 }
 
 .nav {
   display: flex;
-  gap: 3px;
-  flex-wrap: wrap;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex: 1;
+  padding: 0 4px;
 }
+.nav::-webkit-scrollbar { display: none; }
 
 .tab {
   font-size: 13px;
@@ -39,6 +45,7 @@
   text-decoration: none;
   transition: all 0.15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .tab:hover { background: var(--crema); }
 .tabActive { color: var(--naranja); background: var(--naranja-soft); }
@@ -53,8 +60,19 @@
   border-radius: var(--radius-pill);
   transition: all 0.15s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .adminBtn:hover {
   border-color: var(--naranja);
   color: var(--naranja);
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+  .logoImg { height: 36px; }
+  .tab { font-size: 12px; padding: 7px 11px; }
+  .adminBtn { display: none; }
 }

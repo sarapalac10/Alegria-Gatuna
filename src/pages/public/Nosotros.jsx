@@ -36,27 +36,33 @@ export default function Nosotros() {
 
   // Carga el script oficial de Instagram para renderizar los embeds
   useEffect(() => {
-    if (window.instgrm) {
-      window.instgrm.Embeds.process()
-      return
+    // Damos tiempo a que React termine de renderizar todos los blockquotes
+    const process = () => {
+      if (window.instgrm) {
+        window.instgrm.Embeds.process()
+        return
+      }
+      const script = document.createElement('script')
+      script.src = 'https://www.instagram.com/embed.js'
+      script.async = true
+      script.onload = () => window.instgrm?.Embeds.process()
+      document.body.appendChild(script)
     }
-    const script = document.createElement('script')
-    script.src = 'https://www.instagram.com/embed.js'
-    script.async = true
-    script.onload = () => window.instgrm?.Embeds.process()
-    document.body.appendChild(script)
+    const timer = setTimeout(process, 300)
+    return () => clearTimeout(timer)
   }, [])
 
-  const VISIBLE = 3
+  const VISIBLE = typeof window !== 'undefined' && window.innerWidth <= 640 ? 1 : 3
 
   function goTo(i) {
     const track = document.getElementById('ig-track')
     const slides = track?.querySelectorAll('[data-slide]')
     if (!track || !slides) return
 
-    const max = slides.length - VISIBLE
+    const visible = window.innerWidth <= 640 ? 1 : 3
+    const max = slides.length - visible
     const idx = Math.max(0, Math.min(i, max))
-    const slideW = slides[0].offsetWidth + 14
+    const slideW = slides[0].offsetWidth + (window.innerWidth <= 640 ? 12 : 20)
     track.style.transform = `translateX(-${idx * slideW}px)`
 
     document.querySelectorAll('[data-dot]').forEach((d, j) => {

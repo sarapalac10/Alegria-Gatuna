@@ -35,3 +35,10 @@
 .insumoNombre { font-size:11px; font-weight:700; color:var(--texto); }
 .insumoSub { font-size:10px; color:var(--texto-hint); }
 .direccion { background:var(--verde-soft); border-radius:var(--radius-sm); padding:9px 11px; font-size:12px; color:#2A5A1A; line-height:1.5; font-weight:600; }
+
+@media (max-width: 640px) {
+  .igrid { grid-template-columns: 1fr; }
+  .metodosGrid { grid-template-columns: 1fr; }
+  .hero h2 { font-size: 22px; }
+  .insumosGrid { grid-template-columns: repeat(2, 1fr); }
+}

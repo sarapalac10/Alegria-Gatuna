@@ -58,7 +58,7 @@
   font-weight: 700;
 }
 
-.stats { display: flex; gap: 12px; margin-top: 16px; }
+.stats { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
 .statPill {
   background: var(--crema);
   border-radius: var(--radius-md);
@@ -105,4 +105,20 @@
   color: #C04010;
   background: var(--naranja-soft);
   border-radius: var(--radius-lg);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+    text-align: center;
+  }
+  .heroTitle { font-size: 26px; }
+  .heroDesc { max-width: 100%; font-size: 13px; }
+  .heroBtns { justify-content: center; }
+  .heroArt { font-size: 52px; order: -1; }
+  .heroTag { margin-bottom: 10px; }
+  .stats { justify-content: center; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
