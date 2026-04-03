@@ -16,8 +16,14 @@ const IMPACTO = [
   { n: '5',    l: 'Años de labor continua' },
 ]
 
-const GALERIA = ['🐱','🐶','🐰','🐈','🐕','🦮']
-const GAL_BG  = ['#EFF8E8','#FFF3EC','#FEF6DC','#FBEAF0','#E6F1FB','#E4F2DC']
+const GALERIA = [
+  'https://flnrrxddhwgtsdfscyop.supabase.co/storage/v1/object/public/animales/image_1.jpg',
+  'https://flnrrxddhwgtsdfscyop.supabase.co/storage/v1/object/public/animales/image_2.jpg',
+  'https://flnrrxddhwgtsdfscyop.supabase.co/storage/v1/object/public/animales/image_3.jpg',
+  'https://flnrrxddhwgtsdfscyop.supabase.co/storage/v1/object/public/animales/image_4.jpg',
+  'https://flnrrxddhwgtsdfscyop.supabase.co/storage/v1/object/public/animales/image_5.jpg',
+  'https://flnrrxddhwgtsdfscyop.supabase.co/storage/v1/object/public/animales/image_6.jpg',
+]
 
 const POSTS_INSTAGRAM = [
   'https://www.instagram.com/p/DV39ICnkYyF/',
@@ -129,15 +135,13 @@ export default function Nosotros() {
       <div className={styles.galeriaSection}>
         <h3>Momentos que nos mueven</h3>
         <div className={styles.galeriaGrid}>
-          {GALERIA.map((emoji, i) => (
-            <div key={i} className={styles.galeriaItem} style={{ background: GAL_BG[i] }}>
-              {emoji}
+          {GALERIA.map((url, i) => (
+            <div key={i} className={styles.galeriaItem}>
+              <img src={url} alt={`Momento ${i + 1}`} className={styles.galeriaImg} />
             </div>
           ))}
         </div>
-        <p className={styles.galeriaNote}>
-          Reemplaza los emojis con fotos reales — usa etiquetas &lt;img&gt; apuntando a Supabase Storage
-        </p>
+
       </div>
 
       {/* Testimonios — carrusel de Instagram */}

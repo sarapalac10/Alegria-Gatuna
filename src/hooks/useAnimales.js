@@ -15,7 +15,7 @@ export function useAnimales(filtro = 'todos') {
         .neq('estado', 'adoptado')
         .order('created_at', { ascending: false })
 
-      if (filtro === 'gato' || filtro === 'perro' || filtro === 'conejo') {
+      if (filtro === 'gato' || filtro === 'perro') {
         query = query.eq('especie', filtro)
       } else if (filtro === 'disponible') {
         query = query.eq('estado', 'disponible')

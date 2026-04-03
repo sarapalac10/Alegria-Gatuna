@@ -1,0 +1,171 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.header h2 { font-size: 22px; }
+
+.backBtn {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--texto-hint);
+  background: transparent;
+  border: 2px solid var(--crema-border);
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+  font-family: var(--font-body);
+  transition: all 0.15s;
+}
+.backBtn:hover { border-color: var(--naranja); color: var(--naranja); }
+
+.success {
+  background: var(--verde-soft);
+  color: #2A5A1A;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+}
+.errorMsg {
+  background: var(--naranja-soft);
+  color: #C04010;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+}
+
+.form {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 0.5px solid var(--crema-border);
+  padding: 1.75rem;
+  max-width: 600px;
+}
+
+/* Foto */
+.fotoLabel {
+  display: block;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.fotoDrop {
+  border: 3px dashed var(--crema-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  transition: border-color 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.fotoDrop:hover { border-color: var(--naranja); }
+.fotoIcon { font-size: 40px; }
+.fotoDrop p { font-size: 13px; color: var(--texto-hint); font-weight: 600; }
+.fotoPreview {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 0.5px solid var(--crema-border);
+}
+.fotoInput { display: none; }
+.fotoRemove {
+  font-size: 12px;
+  font-weight: 700;
+  color: #C04010;
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
+  margin-bottom: 1rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Campos */
+.twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.frow { margin-bottom: 14px; }
+.frow label {
+  font-size: 11px;
+  color: var(--texto-hint);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.frow input,
+.frow select,
+.frow textarea {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 2px solid var(--crema-border);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--texto);
+  font-family: var(--font-body);
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.frow input:focus,
+.frow select:focus,
+.frow textarea:focus { border-color: var(--naranja); }
+.frow textarea { resize: vertical; }
+
+/* Checks */
+.checksSection {
+  background: var(--crema);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.checksTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--texto-hint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+.checksGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--texto-muted);
+  font-weight: 600;
+  cursor: pointer;
+}
+.checkRow input[type=checkbox] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--naranja);
+  flex-shrink: 0;
+}
+
+.submitBtn {
+  background: var(--naranja);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+.submitBtn:hover:not(:disabled) { background: var(--naranja-dark); }
+.submitBtn:disabled { opacity: 0.6; cursor: not-allowed; }
