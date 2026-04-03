@@ -1,0 +1,94 @@
+.wrap { max-width: 560px; }
+
+.successToast {
+  background: var(--verde-soft);
+  color: #2A5A1A;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  border: 0.5px solid #9FE1CB;
+}
+.errorToast {
+  background: #FFF3EC;
+  color: #C04010;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 0.5px solid var(--crema-border);
+  padding: 1.75rem;
+}
+.card h2 { font-size: 24px; margin-bottom: 6px; }
+.sub { font-size: 13px; color: var(--texto-hint); margin-bottom: 1.5rem; line-height: 1.6; }
+
+.twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.frow { margin-bottom: 14px; }
+.frow label {
+  font-size: 11px;
+  color: var(--texto-hint);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.frow input,
+.frow select,
+.frow textarea {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 2px solid var(--crema-border);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--texto);
+  font-family: var(--font-body);
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.frow input:focus,
+.frow select:focus,
+.frow textarea:focus { border-color: var(--naranja); }
+.frow textarea { resize: vertical; }
+
+.checks { margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
+.checkRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--texto-muted);
+  font-weight: 600;
+  cursor: pointer;
+}
+.checkRow input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--naranja);
+  flex-shrink: 0;
+}
+
+.submitBtn {
+  background: var(--naranja);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  transition: background 0.15s;
+}
+.submitBtn:hover:not(:disabled) { background: var(--naranja-dark); }
+.submitBtn:disabled { opacity: 0.6; cursor: not-allowed; }

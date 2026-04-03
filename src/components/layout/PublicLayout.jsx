@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import logo from '../../assets/logo.jpg'
 import styles from './PublicLayout.module.css'
 
 const navItems = [
@@ -14,7 +15,7 @@ export default function PublicLayout() {
     <div>
       <header className={styles.topbar}>
         <NavLink to="/" className={styles.logo}>
-          Alegría <span>Gatuna</span>
+          <img src={logo} alt="Alegría Gatuna" className={styles.logoImg} />
         </NavLink>
 
         <nav className={styles.nav}>

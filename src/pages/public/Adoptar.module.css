@@ -1,0 +1,108 @@
+.hero {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 2.25rem 2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  border: 0.5px solid var(--crema-border);
+}
+
+.heroTag {
+  display: inline-block;
+  background: var(--verde-soft);
+  color: #2A5A1A;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 16px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 14px;
+}
+.heroTitle {
+  font-size: 34px;
+  color: var(--texto);
+  margin-bottom: 10px;
+}
+.heroTitle span { color: var(--naranja); }
+
+.heroDesc {
+  font-size: 14px;
+  color: var(--texto-muted);
+  line-height: 1.7;
+  max-width: 340px;
+  margin-bottom: 18px;
+}
+.heroBtns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btnPrimary {
+  background: var(--naranja);
+  color: white;
+  border: none;
+  padding: 11px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 700;
+  transition: background 0.15s;
+}
+.btnPrimary:hover { background: var(--naranja-dark); }
+
+.btnSecondary {
+  background: transparent;
+  color: var(--verde);
+  border: 2.5px solid var(--verde);
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stats { display: flex; gap: 12px; margin-top: 16px; }
+.statPill {
+  background: var(--crema);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  text-align: center;
+}
+.statN { font-family: var(--font-title); font-size: 24px; color: var(--verde); display: block; }
+.statL { font-size: 11px; color: var(--texto-hint); font-weight: 700; }
+
+.heroArt { font-size: 80px; line-height: 1; flex-shrink: 0; }
+
+.filtros { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.filtroBtn {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--crema-border);
+  background: white;
+  color: var(--texto-muted);
+  transition: all 0.15s;
+}
+.filtroBtn:hover { border-color: var(--naranja); color: var(--naranja); }
+.filtroBtnActive { border-color: var(--naranja); color: var(--naranja); background: var(--naranja-soft); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 1.5rem;
+}
+
+.estado {
+  text-align: center;
+  padding: 3rem 0;
+  font-size: 15px;
+  color: var(--texto-muted);
+  font-weight: 600;
+}
+.estadoError {
+  text-align: center;
+  padding: 2rem;
+  font-size: 14px;
+  color: #C04010;
+  background: var(--naranja-soft);
+  border-radius: var(--radius-lg);
+}

@@ -1,0 +1,37 @@
+.hero { text-align:center; margin-bottom:1.75rem; }
+.tag { display:inline-block; background:var(--verde-soft); color:#2A5A1A; font-size:12px; font-weight:700; padding:5px 16px; border-radius:var(--radius-pill); margin-bottom:14px; }
+.hero h2 { font-size:28px; margin-bottom:8px; }
+.hero h2 span { color:var(--naranja); }
+.hero p { font-size:14px; color:var(--texto-muted); max-width:440px; margin:0 auto; line-height:1.6; }
+
+.montos { display:flex; gap:8px; justify-content:center; margin-bottom:1.5rem; flex-wrap:wrap; }
+.montoBtn { background:white; border:2px solid var(--crema-border); border-radius:var(--radius-pill); padding:9px 22px; font-family:var(--font-body); font-size:15px; font-weight:700; color:var(--texto); cursor:pointer; transition:all .15s; }
+.montoBtn:hover { border-color:var(--naranja); color:var(--naranja); }
+.montoActive { background:var(--naranja); border-color:var(--naranja); color:white; }
+.montoCustom { border:2px solid var(--crema-border); border-radius:var(--radius-pill); padding:9px 16px; font-family:var(--font-body); font-size:14px; font-weight:700; width:150px; text-align:center; outline:none; background:white; }
+.montoCustom:focus { border-color:var(--naranja); }
+
+.impactoGrid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1.75rem; }
+.impactoCard { background:white; border-radius:var(--radius-md); padding:1rem; text-align:center; border:0.5px solid var(--crema-border); }
+.impactoN { font-family:var(--font-title); font-size:22px; color:var(--naranja); }
+.impactoD { font-size:12px; color:var(--texto-muted); line-height:1.5; margin-top:4px; font-weight:600; }
+
+.metodosGrid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.metodoCard { background:white; border-radius:var(--radius-lg); border:2px solid var(--crema-border); padding:1.25rem; cursor:pointer; transition:all .15s; }
+.metodoCard:hover { border-color:var(--naranja); }
+.metodoActive { border-color:var(--naranja); background:var(--naranja-soft); }
+.metodoIcon { font-size:28px; margin-bottom:8px; }
+.metodoLabel { font-family:var(--font-title); font-size:18px; color:var(--texto); margin-bottom:3px; }
+.metodoDesc { font-size:12px; color:var(--texto-hint); font-weight:600; }
+
+.metodoDetalle { margin-top:12px; padding-top:12px; border-top:1px solid var(--crema-border); }
+.detalleRow { display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; }
+.detalleLabel { font-size:11px; color:var(--texto-hint); font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+.detalleValor { font-size:13px; color:var(--texto); font-weight:700; }
+.copiarBtn { font-size:11px; background:var(--verde-soft); color:#2A5A1A; border:none; padding:5px 14px; border-radius:var(--radius-pill); cursor:pointer; font-family:var(--font-body); font-weight:700; margin-top:4px; }
+
+.insumosGrid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-bottom:9px; }
+.insumoItem { background:var(--crema); border-radius:var(--radius-sm); padding:8px; display:flex; align-items:center; gap:7px; font-size:18px; }
+.insumoNombre { font-size:11px; font-weight:700; color:var(--texto); }
+.insumoSub { font-size:10px; color:var(--texto-hint); }
+.direccion { background:var(--verde-soft); border-radius:var(--radius-sm); padding:9px 11px; font-size:12px; color:#2A5A1A; line-height:1.5; font-weight:600; }
