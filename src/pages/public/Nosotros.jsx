@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import styles from './Nosotros.module.css'
 
 const HITOS = [
@@ -18,14 +19,60 @@ const IMPACTO = [
 const GALERIA = ['🐱','🐶','🐰','🐈','🐕','🦮']
 const GAL_BG  = ['#EFF8E8','#FFF3EC','#FEF6DC','#FBEAF0','#E6F1FB','#E4F2DC']
 
-const TESTIMONIOS = [
-  { ini: 'CR', color: '#E4F2DC', ctext: '#2A5A1A', nombre: 'Carolina Ríos',   animal: 'Adoptó a Luna · 2023',    texto: 'Adoptar a Luna fue la mejor decisión de mi vida. El proceso fue claro, amoroso y muy bien acompañado. Ya no imagino mi casa sin ella.' },
-  { ini: 'AM', color: '#FFF3EC', ctext: '#C04010', nombre: 'Andrés Mejía',    animal: 'Adoptó a Mango · 2024',   texto: 'Me impresionó el cuidado con el que preparan a cada animal. Mango llegó sano, socializado y lleno de amor.' },
-  { ini: 'FT', color: '#FEF6DC', ctext: '#9A6A00', nombre: 'Familia Torres',  animal: 'Adoptó a Nube · 2024',    texto: 'El equipo es increíble. Nos acompañaron durante todo el proceso y aún nos escriben para saber cómo está Nube.' },
-  { ini: 'MR', color: '#E6F1FB', ctext: '#185FA5', nombre: 'María Rodríguez', animal: 'Voluntaria desde 2022',   texto: 'Ser voluntaria aquí cambió mi perspectiva de vida. Ver cómo un animal asustado se convierte en un ser lleno de confianza no tiene precio.' },
+const POSTS_INSTAGRAM = [
+  'https://www.instagram.com/p/DV39ICnkYyF/',
+  'https://www.instagram.com/p/DVmeM5AEa-T/',
+  'https://www.instagram.com/p/DUgkVVIEcAk/',
+  'https://www.instagram.com/p/DUZNDOREUFf/',
+  'https://www.instagram.com/p/DUJQveSEcqm/',
+  'https://www.instagram.com/p/DTva4WskVoY/',
+  'https://www.instagram.com/p/DTWPQcdEd5f/',
+  'https://www.instagram.com/p/DTL1IIgkXGS/',
+  'https://www.instagram.com/p/DS8l1ZhkXSQ/',
+  'https://www.instagram.com/p/DS3n1ISEVJH/',
 ]
 
 export default function Nosotros() {
+
+  // Carga el script oficial de Instagram para renderizar los embeds
+  useEffect(() => {
+    if (window.instgrm) {
+      window.instgrm.Embeds.process()
+      return
+    }
+    const script = document.createElement('script')
+    script.src = 'https://www.instagram.com/embed.js'
+    script.async = true
+    script.onload = () => window.instgrm?.Embeds.process()
+    document.body.appendChild(script)
+  }, [])
+
+  const VISIBLE = 3
+
+  function goTo(i) {
+    const track = document.getElementById('ig-track')
+    const slides = track?.querySelectorAll('[data-slide]')
+    if (!track || !slides) return
+
+    const max = slides.length - VISIBLE
+    const idx = Math.max(0, Math.min(i, max))
+    const slideW = slides[0].offsetWidth + 14
+    track.style.transform = `translateX(-${idx * slideW}px)`
+
+    document.querySelectorAll('[data-dot]').forEach((d, j) => {
+      d.classList.toggle('dot-active', j === idx)
+    })
+    document.getElementById('prev-arrow').disabled = idx === 0
+    document.getElementById('next-arrow').disabled = idx >= max
+
+    track.dataset.cur = idx
+  }
+
+  function scroll(dir) {
+    const track = document.getElementById('ig-track')
+    const cur = parseInt(track?.dataset.cur || '0')
+    goTo(cur + dir)
+  }
   return (
     <div className="page-container">
 
@@ -87,22 +134,66 @@ export default function Nosotros() {
         </p>
       </div>
 
-      {/* Testimonios */}
+      {/* Testimonios — carrusel de Instagram */}
       <div className={styles.testimoniosSection}>
-        <h3>Lo que dicen quienes adoptaron</h3>
-        <div className={styles.testiGrid}>
-          {TESTIMONIOS.map(({ ini, color, ctext, nombre, animal, texto }) => (
-            <div key={nombre} className={styles.testiCard}>
-              <div className={styles.testiQuote}>"</div>
-              <p className={styles.testiTexto}>{texto}</p>
-              <div className={styles.testiAuthor}>
-                <div className={styles.testiAv} style={{ background: color, color: ctext }}>{ini}</div>
-                <div>
-                  <div className={styles.testiNombre}>{nombre}</div>
-                  <div className={styles.testiAnimal}>{animal}</div>
-                </div>
+        <div className={styles.testiHeader}>
+          <div>
+            <h3>Lo que dicen quienes adoptaron</h3>
+            <p className={styles.testiSubtitle}>
+              Historias reales compartidas por nuestras familias adoptantes 🐾
+            </p>
+          </div>
+          <div className={styles.arrows}>
+            <button
+              className={styles.arrow}
+              onClick={() => scroll(-1)}
+              id="prev-arrow"
+              aria-label="anterior"
+            >‹</button>
+            <button
+              className={styles.arrow}
+              onClick={() => scroll(1)}
+              id="next-arrow"
+              aria-label="siguiente"
+            >›</button>
+          </div>
+        </div>
+
+        <div className={styles.carouselWrap}>
+          <div className={styles.carouselTrack} id="ig-track">
+            {POSTS_INSTAGRAM.map((url, i) => (
+              <div key={url} className={styles.igSlide} data-slide={i}>
+                <blockquote
+                  className="instagram-media"
+                  data-instgrm-permalink={url}
+                  data-instgrm-version="14"
+                  style={{
+                    background: 'white',
+                    border: '0.5px solid #e8e0d4',
+                    borderRadius: '18px',
+                    margin: 0,
+                    width: '100%',
+                    minWidth: 0,
+                  }}
+                >
+                  <a href={url} target="_blank" rel="noopener noreferrer">
+                    Ver post en Instagram
+                  </a>
+                </blockquote>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.dots} id="ig-dots">
+          {POSTS_INSTAGRAM.map((_, i) => (
+            <button
+              key={i}
+              data-dot={i}
+              className={`${styles.dot} ${i === 0 ? styles.dotActive : ''}`}
+              onClick={() => goTo(i)}
+              aria-label={`Post ${i + 1}`}
+            />
           ))}
         </div>
       </div>
