@@ -60,16 +60,22 @@ export default function MeInteresa() {
     if (error) {
       setError('Hubo un problema al enviar la solicitud. Intenta de nuevo.')
     } else {
-      // Llamar la Edge Function para enviar emails
+      // Llamar la Edge Function directamente
       const animalSeleccionado = animales.find(a => a.id === form.animal_id)
-      await supabase.functions.invoke('nueva-solicitud', {
-        body: {
-          nombre:       form.nombre,
-          apellido:     form.apellido,
-          correo:       form.correo,
-          animalNombre: animalSeleccionado?.nombre || 'el animalito',
-        },
-      })
+      try {
+        await fetch('https://flnrrxddhwgtsdfscyop.supabase.co/functions/v1/nueva-solicitud', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre:       form.nombre,
+            apellido:     form.apellido,
+            correo:       form.correo,
+            animalNombre: animalSeleccionado?.nombre || 'el animalito',
+          }),
+        })
+      } catch (e) {
+        console.error('Error enviando email:', e)
+      }
       setEnviado(true)
       setForm(ESTADO_INICIAL)
     }

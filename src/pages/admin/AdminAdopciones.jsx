@@ -42,14 +42,20 @@ export default function AdminAdopciones() {
     await supabase.from('solicitudes_adopcion').update({ etapa: nuevaEtapa }).eq('id', s.id)
 
     // Email al adoptante sobre el avance
-    await supabase.functions.invoke('avance-etapa', {
-      body: {
-        nombre:       s.nombre,
-        correo:       s.correo,
-        animalNombre: s.animales?.nombre || 'el animalito',
-        etapa:        nuevaEtapa,
-      },
-    })
+    try {
+      await fetch('https://flnrrxddhwgtsdfscyop.supabase.co/functions/v1/avance-etapa', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre:       s.nombre,
+          correo:       s.correo,
+          animalNombre: s.animales?.nombre || 'el animalito',
+          etapa:        nuevaEtapa,
+        }),
+      })
+    } catch (e) {
+      console.error('Error enviando email:', e)
+    }
 
     if (nuevaEtapa === 'entrega' && s.animal_id) {
       await supabase.from('animales').update({ estado: 'adoptado' }).eq('id', s.animal_id)
