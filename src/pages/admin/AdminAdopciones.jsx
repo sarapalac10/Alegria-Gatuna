@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../../lib/supabase'
+import { supabase, supabaseAnonKey } from '../../lib/supabase'
 import styles from './AdminAdopciones.module.css'
 
 const ETAPAS = ['solicitud', 'entrevista', 'visita_hogar', 'aprobacion', 'entrega']
@@ -45,7 +45,11 @@ export default function AdminAdopciones() {
     try {
       await fetch('https://flnrrxddhwgtsdfscyop.supabase.co/functions/v1/avance-etapa', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseAnonKey,
+          'Authorization': `Bearer ${supabaseAnonKey}`,
+        },
         body: JSON.stringify({
           nombre:       s.nombre,
           correo:       s.correo,

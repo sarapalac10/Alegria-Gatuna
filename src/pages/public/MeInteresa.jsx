@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { supabase } from '../../lib/supabase'
+import { supabase, supabaseAnonKey } from '../../lib/supabase'
 import styles from './MeInteresa.module.css'
 
 const ESTADO_INICIAL = {
@@ -65,7 +65,11 @@ export default function MeInteresa() {
       try {
         await fetch('https://flnrrxddhwgtsdfscyop.supabase.co/functions/v1/nueva-solicitud', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': supabaseAnonKey,
+            'Authorization': `Bearer ${supabaseAnonKey}`,
+          },
           body: JSON.stringify({
             nombre:       form.nombre,
             apellido:     form.apellido,
