@@ -1,0 +1,4 @@
+{"code":401,"message":"Missing authorization header"}--_curl_--"nombre":"Test"
+--_curl_--"apellido":"Test"
+--_curl_--"correo":"saritapz01@hotmail.com"
+--_curl_--"animalNombre":"Luna"
