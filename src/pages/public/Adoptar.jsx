@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAnimales } from '../../hooks/useAnimales'
 import AnimalCard from '../../components/public/AnimalCard'
 import styles from './Adoptar.module.css'
+import logo from '/logo.jpg'
 
 const FILTROS = [
   { key: 'todos',      label: 'Todos' },
@@ -47,13 +48,13 @@ export default function Adoptar() {
               <span className={styles.statN}>138</span>
               <span className={styles.statL}>adoptados</span>
             </div>
-            <div className={styles.statPill}>
-              <span className={styles.statN}>42</span>
-              <span className={styles.statL}>voluntarios</span>
+          <div className={styles.statPill}>
+              <span className={styles.statN}>16</span>
+              <span className={styles.statL}>años de labor</span>
             </div>
           </div>
         </div>
-        <div className={styles.heroArt}>🐱🐈🐶</div>
+        <div className={styles.heroArt}><img src={logo} alt={logo}/></div>
       </div>
 
       {/* Filtros */}
@@ -71,7 +72,7 @@ export default function Adoptar() {
 
       {/* Estados */}
       {cargando && (
-        <div className={styles.estado}>Cargando animalitos… 🐾</div>
+        <div className={styles.estado}>Cargando a tu próximo mejor amigo… 🐾</div>
       )}
       {error && (
         <div className={styles.estadoError}>Error al cargar los animales: {error}</div>

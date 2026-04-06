@@ -2,18 +2,18 @@ import { useEffect } from 'react'
 import styles from './Nosotros.module.css'
 
 const HITOS = [
-  { year: '2019', icon: '📦', title: 'El primer rescate',           desc: 'Valentina encuentra cinco gatitos abandonados y los acoge en su apartamento. El apartamento nunca volvió a ser el mismo — para mejor.' },
-  { year: '2020', icon: '🌱', title: 'Nace Alegría Gatuna',         desc: 'Con la ayuda de amigos y vecinos, formalizamos el hogar de paso. Llegaron los primeros voluntarios y las primeras adopciones exitosas.' },
-  { year: '2021', icon: '📱', title: 'Comunidad en Instagram',      desc: 'Abrimos @alegria.gatuna y la comunidad respondió con amor. Las adopciones se triplicaron gracias a la difusión digital.' },
-  { year: '2022–2024', icon: '🏥', title: 'Alianzas veterinarias',  desc: 'Logramos convenios con clínicas de Medellín para atención a menor costo. Hoy atendemos en promedio 15 animales simultáneos.' },
-  { year: '2025', icon: '💻', title: 'Plataforma digital propia',   desc: 'Lanzamos esta plataforma para conectar mejor a los animales con sus futuros hogares, y a la comunidad con nuestra causa.' },
+  { year: 'Hace 16 años', icon: '❤️', title: 'Una vocación de vida',       desc: 'Marlen Piedrahita Gómez comenzó a cuidar, rescatar y proteger animalitos. Desde entonces, su hogar se convirtió en un refugio de amor para los más vulnerables.' },
+  { year: '4 años',       icon: '🌱', title: 'Voluntaria con corazón',      desc: 'Antes de crear su propio hogar, Marlen dedicó cuatro años como voluntaria en una fundación animal, aprendiendo y entregándose por completo a la causa.' },
+  { year: '2023',         icon: '🏠', title: 'Nace Alegría Gatuna',         desc: 'Con experiencia, amor y determinación, Marlen creó su propio hogar de paso. Un espacio donde cada animalito recibe cuidado, atención veterinaria y mucho cariño mientras encuentra su familia para siempre.' },
+  { year: 'Hoy',          icon: '🐾', title: 'Más de 100 conexiones de amor', desc: 'Alegría Gatuna ha logrado conectar a más de 100 animalitos con sus cuidadores para toda la vida. Cada adopción es una historia de amor que nos motiva a seguir.' },
+  { year: '2025',         icon: '💻', title: 'Plataforma digital propia',   desc: 'Lanzamos esta plataforma para que más familias puedan conocer a nuestros animalitos y hacer parte de esta bonita causa.' },
 ]
 
 const IMPACTO = [
-  { n: '+350', l: 'Animales rescatados' },
-  { n: '138',  l: 'Adoptados con éxito' },
-  { n: '42',   l: 'Voluntarios activos' },
-  { n: '5',    l: 'Años de labor continua' },
+  { n: '+100',  l: 'Animalitos adoptados' },
+  { n: '16',    l: 'Años de vocación' },
+  { n: '$100k', l: 'Cuesta una esterilización' },
+  { n: '1',     l: 'Persona con todo el amor' },
 ]
 
 const GALERIA = [
@@ -92,12 +92,13 @@ export default function Nosotros() {
       <div className={styles.heroCard}>
         <div>
           <span className={styles.tag}>Nuestra historia</span>
-          <h2 className={styles.heroTitle}>Nació del amor,<br />creció con <span>propósito</span></h2>
+          <h2 className={styles.heroTitle}>Una vida dedicada<br />a <span>ellos</span></h2>
           <p className={styles.heroDesc}>
-            Alegría Gatuna empezó en 2019 cuando nuestra fundadora, Valentina, encontró una caja con
-            cinco gatitos abandonados en su puerta. Lo que comenzó como un acto de compasión se
-            convirtió en un hogar de paso que hoy salva decenas de vidas cada mes en Medellín.
-            Cada animal que pasa por nuestras manos recibe amor, cuidado veterinario y una segunda oportunidad.
+            Alegría Gatuna es el hogar de paso de <strong>Marlen Piedrahita Gómez</strong>, quien
+            desde hace 16 años cuida, rescata y protege animalitos en Medellín. Después de cuatro
+            años como voluntaria en una fundación, en 2023 creó su propio hogar de paso —
+            un espacio lleno de amor donde cada animalito recibe los cuidados y la atención médica que merece mientras
+            encuentra su familia para siempre.
           </p>
         </div>
         <div className={styles.heroArt}>🏠🐱</div>

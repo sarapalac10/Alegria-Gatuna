@@ -39,7 +39,7 @@ export default function Voluntariado() {
     <div className="page-container">
       <div className={styles.intro}>
         <h2>Únete al equipo</h2>
-        <p>Escoge la forma de ayudar que más se adapte a ti.</p>
+        <p>Alegría Gatuna es hoy el trabajo y el amor de una sola persona — Marlen. ¿Quieres ser el primero en acompañarla? Escoge cómo puedes ayudar.</p>
       </div>
 
       <div className={styles.tiposGrid}>
