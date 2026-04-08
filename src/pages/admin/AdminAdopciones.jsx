@@ -43,12 +43,13 @@ export default function AdminAdopciones() {
 
     // Email al adoptante sobre el avance
     try {
+      const { data: { session } } = await supabase.auth.getSession()
       await fetch('https://flnrrxddhwgtsdfscyop.supabase.co/functions/v1/avance-etapa', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'apikey': supabaseAnonKey,
-          'Authorization': `Bearer ${supabaseAnonKey}`,
+          'Authorization': `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
           nombre:       s.nombre,
