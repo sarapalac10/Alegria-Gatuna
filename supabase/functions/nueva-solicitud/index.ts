@@ -1,8 +1,8 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
-const ADMIN_EMAIL    = Deno.env.get('ADMIN_EMAIL')    // correo del admin
-const FROM_EMAIL     = Deno.env.get('FROM_EMAIL')     // ej: adopciones@alegriagatuna.com
+const ADMIN_EMAIL    = Deno.env.get('ADMIN_EMAIL')
+const FROM_EMAIL     = Deno.env.get('FROM_EMAIL')
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -56,8 +56,6 @@ serve(async (req) => {
   }
 })
 
-// ── Templates ────────────────────────────────────────────────
-
 function emailConfirmacion({ nombre, animalNombre }: { nombre: string; animalNombre: string }) {
   return `
 <!DOCTYPE html>
@@ -68,13 +66,11 @@ function emailConfirmacion({ nombre, animalNombre }: { nombre: string; animalNom
     <tr><td align="center" style="padding:40px 20px;">
       <table width="560" cellpadding="0" cellspacing="0" style="background:white;border-radius:20px;overflow:hidden;">
 
-        <!-- Header -->
         <tr><td style="background:#3A6B2A;padding:32px;text-align:center;">
           <h1 style="color:white;font-size:28px;margin:0;font-family:Arial,sans-serif;">🏠 Alegría Gatuna</h1>
           <p style="color:#E4F2DC;margin:8px 0 0;font-size:14px;">Hogar de paso · Medellín</p>
         </td></tr>
 
-        <!-- Body -->
         <tr><td style="padding:36px 40px;">
           <h2 style="color:#2D2A22;font-size:22px;margin:0 0 12px;">¡Hola, ${nombre}! 🐾</h2>
           <p style="color:#6a6050;font-size:15px;line-height:1.7;margin:0 0 20px;">
@@ -97,13 +93,12 @@ function emailConfirmacion({ nombre, animalNombre }: { nombre: string; animalNom
           </p>
         </td></tr>
 
-        <!-- Footer -->
         <tr><td style="background:#F7F2EA;padding:24px 40px;text-align:center;border-top:1px solid #e8e0d4;">
           <p style="color:#8a8070;font-size:12px;margin:0;">
             Con amor, el equipo de <strong>Alegría Gatuna</strong> 🐱
           </p>
           <p style="color:#8a8070;font-size:12px;margin:6px 0 0;">
-            <a href="https://alegria-gatuna.vercel.app" style="color:#3A6B2A;text-decoration:none;">alegria-gatuna.vercel.app</a>
+            <a href="https://www.alegriagatuna.com" style="color:#3A6B2A;text-decoration:none;">www.alegriagatuna.com</a>
           </p>
         </td></tr>
 
@@ -149,7 +144,7 @@ function emailAdmin({ nombre, apellido, correo, animalNombre }: {
             </tr>
           </table>
           <div style="margin-top:24px;text-align:center;">
-            <a href="https://alegria-gatuna.vercel.app/admin/adopciones" 
+            <a href="https://www.alegriagatuna.com/admin/adopciones" 
                style="background:#E8572A;color:white;text-decoration:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:bold;display:inline-block;">
               Ver en el panel admin →
             </a>
