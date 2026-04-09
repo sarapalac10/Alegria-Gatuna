@@ -9,7 +9,11 @@ const TIPOS = [
   { key: 'difusion_redes',    icon: '📱', label: 'Difusión en redes',  desc: 'Ayúdanos a dar a conocer los animales en adopción.' },
 ]
 
-const FORM_INICIAL = { nombre: '', correo: '', tipo: 'cuidado_directo', disponibilidad: '2-4 horas', motivacion: '' }
+const FORM_INICIAL = {
+  nombre: '', correo: '', tipo: 'cuidado_directo',
+  disponibilidad: '2-4 horas', motivacion: '',
+  acepta_politica: false,
+}
 
 export default function Voluntariado() {
   const [form, setForm] = useState(FORM_INICIAL)
@@ -18,7 +22,8 @@ export default function Voluntariado() {
   const [error, setError] = useState(null)
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const { name, value, type, checked } = e.target
+    setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
   function selTipo(key) {
@@ -27,9 +32,19 @@ export default function Voluntariado() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    if (!form.acepta_politica) {
+      setError('Debes aceptar la política de tratamiento de datos para continuar.')
+      return
+    }
     setEnviando(true)
     setError(null)
-    const { error } = await supabase.from('voluntarios').insert([form])
+    const { error } = await supabase.from('voluntarios').insert([{
+      nombre:         form.nombre,
+      correo:         form.correo,
+      tipo:           form.tipo,
+      disponibilidad: form.disponibilidad,
+      motivacion:     form.motivacion,
+    }])
     if (error) setError('Hubo un problema. Intenta de nuevo.')
     else { setEnviado(true); setForm(FORM_INICIAL) }
     setEnviando(false)
@@ -100,6 +115,27 @@ export default function Voluntariado() {
               <textarea name="motivacion" value={form.motivacion} onChange={handleChange}
                 placeholder="Cuéntanos tu motivación…" rows={3} />
             </div>
+
+            <div className={styles.politicaWrap}>
+              <label className={styles.checkRow} style={{ alignItems: 'flex-start', gap: 10 }}>
+                <input
+                  type="checkbox"
+                  name="acepta_politica"
+                  checked={form.acepta_politica}
+                  onChange={handleChange}
+                  required
+                  style={{ marginTop: 3, flexShrink: 0 }}
+                />
+                <span>
+                  He leído y acepto la{' '}
+                  <a href="/politica-de-privacidad" target="_blank" rel="noopener noreferrer" className={styles.politicaLink}>
+                    Política de Tratamiento de Datos Personales
+                  </a>
+                  {' '}del Hogar de Paso Alegría Gatuna, de conformidad con la Ley 1581 de 2012.
+                </span>
+              </label>
+            </div>
+
             <button type="submit" className={styles.submitBtn} disabled={enviando}>
               {enviando ? 'Enviando…' : 'Inscribirme'}
             </button>

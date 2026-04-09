@@ -93,6 +93,18 @@
 .submitBtn:hover:not(:disabled) { background: var(--naranja-dark); }
 .submitBtn:disabled { opacity: 0.6; cursor: not-allowed; }
 
+.politicaWrap {
+  margin: 16px 0;
+  padding: 14px 16px;
+  background: #E4F2DC;
+  border-radius: 10px;
+}
+
+.politicaLink {
+  color: #E8572A;
+  text-decoration: underline;
+}
+
 @media (max-width: 640px) {
   .twoCol { grid-template-columns: 1fr; }
   .card { padding: 1.25rem; }

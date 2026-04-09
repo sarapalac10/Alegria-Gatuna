@@ -7,6 +7,7 @@ const ESTADO_INICIAL = {
   nombre: '', apellido: '', correo: '', celular: '',
   animal_id: '', descripcion_hogar: '',
   tiene_espacio: false, todos_acuerdo: false, compromiso_vet: false,
+  acepta_politica: false,
 }
 
 export default function MeInteresa() {
@@ -17,7 +18,6 @@ export default function MeInteresa() {
   const [enviado, setEnviado] = useState(false)
   const [error, setError] = useState(null)
 
-  // Cargar animales disponibles para el selector
   useEffect(() => {
     supabase
       .from('animales')
@@ -26,7 +26,6 @@ export default function MeInteresa() {
       .then(({ data }) => { if (data) setAnimales(data) })
   }, [])
 
-  // Preseleccionar animal si viene de la galería
   useEffect(() => {
     if (location.state?.animalId) {
       setForm(f => ({ ...f, animal_id: location.state.animalId }))
@@ -40,6 +39,10 @@ export default function MeInteresa() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    if (!form.acepta_politica) {
+      setError('Debes aceptar la política de tratamiento de datos para continuar.')
+      return
+    }
     setEnviando(true)
     setError(null)
 
@@ -60,7 +63,6 @@ export default function MeInteresa() {
     if (error) {
       setError('Hubo un problema al enviar la solicitud. Intenta de nuevo.')
     } else {
-      // Llamar la Edge Function directamente
       const animalSeleccionado = animales.find(a => a.id === form.animal_id)
       try {
         await fetch('https://flnrrxddhwgtsdfscyop.supabase.co/functions/v1/nueva-solicitud', {
@@ -164,6 +166,26 @@ export default function MeInteresa() {
               <label className={styles.checkRow}>
                 <input type="checkbox" name="compromiso_vet" checked={form.compromiso_vet} onChange={handleChange} />
                 Me comprometo con los cuidados veterinarios
+              </label>
+            </div>
+
+            <div className={styles.politicaWrap}>
+              <label className={styles.checkRow} style={{ alignItems: 'flex-start', gap: 10 }}>
+                <input
+                  type="checkbox"
+                  name="acepta_politica"
+                  checked={form.acepta_politica}
+                  onChange={handleChange}
+                  required
+                  style={{ marginTop: 3, flexShrink: 0 }}
+                />
+                <span>
+                  He leído y acepto la{' '}
+                  <a href="/politica-de-privacidad" target="_blank" rel="noopener noreferrer" className={styles.politicaLink}>
+                    Política de Tratamiento de Datos Personales
+                  </a>
+                  {' '}del Hogar de Paso Alegría Gatuna, de conformidad con la Ley 1581 de 2012.
+                </span>
               </label>
             </div>
 

@@ -29,6 +29,18 @@
 .submitBtn:hover:not(:disabled) { background:#2A5A1A; }
 .submitBtn:disabled { opacity:.6; cursor:not-allowed; }
 
+.politicaWrap {
+  margin: 16px 0;
+  padding: 14px 16px;
+  background: #E4F2DC;
+  border-radius: 10px;
+}
+
+.politicaLink {
+  color: #E8572A;
+  text-decoration: underline;
+}
+
 @media (max-width: 640px) {
   .tiposGrid { grid-template-columns: 1fr; }
   .twoCol { grid-template-columns: 1fr; }

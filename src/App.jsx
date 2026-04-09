@@ -10,6 +10,7 @@ import MeInteresa from './pages/public/MeInteresa'
 import Voluntariado from './pages/public/Voluntariado'
 import Donaciones from './pages/public/Donaciones'
 import Nosotros from './pages/public/Nosotros'
+import Politica from './pages/public/Politica'
 
 // Páginas admin
 import AdminAnimales from './pages/admin/AdminAnimales'
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="voluntariado" element={<Voluntariado />} />
         <Route path="donaciones" element={<Donaciones />} />
         <Route path="nosotros" element={<Nosotros />} />
+        <Route path="/politica-de-privacidad" element={<Politica />} />
       </Route>
 
       {/* Login admin */}
