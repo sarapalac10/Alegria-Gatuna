@@ -1,21 +1,42 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { supabase } from '../../lib/supabase'
 import { useAnimales } from '../../hooks/useAnimales'
 import AnimalCard from '../../components/public/AnimalCard'
 import styles from './Adoptar.module.css'
 import logo from '/logo.jpg'
 
-const FILTROS = [
-  { key: 'todos',      label: 'Todos' },
-  { key: 'gato',       label: 'Gatos' },
-  { key: 'perro',      label: 'Perros' },
-  { key: 'disponible', label: 'Disponibles' },
+const FILTROS_BASE = [
+  { key: 'todos',      label: 'Todos',       especie: null },
+  { key: 'gato',       label: 'Gatos',       especie: 'gato' },
+  { key: 'perro',      label: 'Perros',      especie: 'perro' },
+  { key: 'disponible', label: 'Disponibles', especie: null },
 ]
 
 export default function Adoptar() {
   const [filtro, setFiltro] = useState('todos')
+  const [especies, setEspecies] = useState([])
   const { animales, cargando, error } = useAnimales(filtro)
   const navigate = useNavigate()
+
+  // Cargar qué especies existen para mostrar solo los filtros relevantes
+  useEffect(() => {
+    supabase
+      .from('animales')
+      .select('especie')
+      .then(({ data }) => {
+        if (data) {
+          const unicas = [...new Set(data.map(a => a.especie.toLowerCase()))]
+          setEspecies(unicas)
+        }
+      })
+  }, [])
+
+  // Filtros visibles: siempre "Todos" y "Disponibles", y solo las especies que existen
+  const filtrosVisibles = FILTROS_BASE.filter(f => {
+    if (!f.especie) return true // "Todos" y "Disponibles" siempre
+    return especies.includes(f.especie)
+  })
 
   return (
     <div className="page-container">
@@ -48,18 +69,18 @@ export default function Adoptar() {
               <span className={styles.statN}>138</span>
               <span className={styles.statL}>adoptados</span>
             </div>
-          <div className={styles.statPill}>
+            <div className={styles.statPill}>
               <span className={styles.statN}>16</span>
               <span className={styles.statL}>años de labor</span>
             </div>
           </div>
         </div>
-        <div className={styles.heroArt}><img src={logo} alt={logo}/></div>
+        <div className={styles.heroArt}><img src={logo} alt="Alegría Gatuna" /></div>
       </div>
 
-      {/* Filtros */}
+      {/* Filtros dinámicos */}
       <div className={styles.filtros}>
-        {FILTROS.map(({ key, label }) => (
+        {filtrosVisibles.map(({ key, label }) => (
           <button
             key={key}
             className={`${styles.filtroBtn} ${filtro === key ? styles.filtroBtnActive : ''}`}
