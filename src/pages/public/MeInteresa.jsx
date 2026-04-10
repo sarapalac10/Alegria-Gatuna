@@ -10,13 +10,44 @@ const ESTADO_INICIAL = {
   acepta_politica: false,
 }
 
+// ── Validaciones ──────────────────────────────────────────────
+function validar(form) {
+  const errores = {}
+
+  if (!form.nombre.trim())
+    errores.nombre = 'El nombre es obligatorio.'
+  else if (!/^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s'-]+$/.test(form.nombre.trim()))
+    errores.nombre = 'Solo se permiten letras.'
+
+  if (!form.apellido.trim())
+    errores.apellido = 'El apellido es obligatorio.'
+  else if (!/^[a-záéíóúüñA-ZÁÉÍÓÚÜÑ\s'-]+$/.test(form.apellido.trim()))
+    errores.apellido = 'Solo se permiten letras.'
+
+  if (!form.correo.trim())
+    errores.correo = 'El correo es obligatorio.'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.correo.trim()))
+    errores.correo = 'Ingresa un correo válido.'
+
+  if (!form.celular.trim())
+    errores.celular = 'El celular es obligatorio.'
+  else if (!/^3\d{9}$/.test(form.celular.replace(/\s/g, '')))
+    errores.celular = 'Debe ser un celular colombiano de 10 dígitos (ej: 3001234567).'
+
+  if (!form.acepta_politica)
+    errores.acepta_politica = 'Debes aceptar la política de tratamiento de datos.'
+
+  return errores
+}
+
 export default function MeInteresa() {
   const location = useLocation()
   const [form, setForm] = useState(ESTADO_INICIAL)
+  const [errores, setErrores] = useState({})
   const [animales, setAnimales] = useState([])
   const [enviando, setEnviando] = useState(false)
   const [enviado, setEnviado] = useState(false)
-  const [error, setError] = useState(null)
+  const [errorGlobal, setErrorGlobal] = useState(null)
 
   useEffect(() => {
     supabase
@@ -34,26 +65,31 @@ export default function MeInteresa() {
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target
-    setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
+    const newValue = type === 'checkbox' ? checked : value
+    setForm(f => ({ ...f, [name]: newValue }))
+    // Limpiar error del campo al modificarlo
+    if (errores[name]) setErrores(prev => ({ ...prev, [name]: undefined }))
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!form.acepta_politica) {
-      setError('Debes aceptar la política de tratamiento de datos para continuar.')
+    const nuevosErrores = validar(form)
+    if (Object.keys(nuevosErrores).length > 0) {
+      setErrores(nuevosErrores)
       return
     }
+
     setEnviando(true)
-    setError(null)
+    setErrorGlobal(null)
 
     const { error } = await supabase
       .from('solicitudes_adopcion')
       .insert([{
         animal_id:         form.animal_id || null,
-        nombre:            form.nombre,
-        apellido:          form.apellido,
-        correo:            form.correo,
-        celular:           form.celular,
+        nombre:            form.nombre.trim(),
+        apellido:          form.apellido.trim(),
+        correo:            form.correo.trim().toLowerCase(),
+        celular:           form.celular.replace(/\s/g, ''),
         descripcion_hogar: form.descripcion_hogar,
         tiene_espacio:     form.tiene_espacio,
         todos_acuerdo:     form.todos_acuerdo,
@@ -61,7 +97,7 @@ export default function MeInteresa() {
       }])
 
     if (error) {
-      setError('Hubo un problema al enviar la solicitud. Intenta de nuevo.')
+      setErrorGlobal('Hubo un problema al enviar la solicitud. Intenta de nuevo.')
     } else {
       const animalSeleccionado = animales.find(a => a.id === form.animal_id)
       try {
@@ -73,9 +109,9 @@ export default function MeInteresa() {
             'Authorization': `Bearer ${supabaseAnonKey}`,
           },
           body: JSON.stringify({
-            nombre:       form.nombre,
-            apellido:     form.apellido,
-            correo:       form.correo,
+            nombre:       form.nombre.trim(),
+            apellido:     form.apellido.trim(),
+            correo:       form.correo.trim().toLowerCase(),
             animalNombre: animalSeleccionado?.nombre || 'el animalito',
           }),
         })
@@ -84,6 +120,7 @@ export default function MeInteresa() {
       }
       setEnviado(true)
       setForm(ESTADO_INICIAL)
+      setErrores({})
     }
     setEnviando(false)
   }
@@ -98,8 +135,8 @@ export default function MeInteresa() {
           </div>
         )}
 
-        {error && (
-          <div className={styles.errorToast}>{error}</div>
+        {errorGlobal && (
+          <div className={styles.errorToast}>{errorGlobal}</div>
         )}
 
         <div className={styles.card}>
@@ -108,26 +145,57 @@ export default function MeInteresa() {
             Cuéntanos sobre ti. Revisaremos tu solicitud y nos pondremos en contacto en menos de 48 horas.
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className={styles.twoCol}>
               <div className={styles.frow}>
                 <label>Nombre</label>
-                <input name="nombre" value={form.nombre} onChange={handleChange} placeholder="Tu nombre" required />
+                <input
+                  name="nombre"
+                  value={form.nombre}
+                  onChange={handleChange}
+                  placeholder="Tu nombre"
+                  className={errores.nombre ? styles.inputError : ''}
+                />
+                {errores.nombre && <span className={styles.fieldError}>{errores.nombre}</span>}
               </div>
               <div className={styles.frow}>
                 <label>Apellido</label>
-                <input name="apellido" value={form.apellido} onChange={handleChange} placeholder="Tu apellido" required />
+                <input
+                  name="apellido"
+                  value={form.apellido}
+                  onChange={handleChange}
+                  placeholder="Tu apellido"
+                  className={errores.apellido ? styles.inputError : ''}
+                />
+                {errores.apellido && <span className={styles.fieldError}>{errores.apellido}</span>}
               </div>
             </div>
 
             <div className={styles.twoCol}>
               <div className={styles.frow}>
                 <label>Correo</label>
-                <input name="correo" type="email" value={form.correo} onChange={handleChange} placeholder="correo@ejemplo.com" required />
+                <input
+                  name="correo"
+                  type="email"
+                  value={form.correo}
+                  onChange={handleChange}
+                  placeholder="correo@ejemplo.com"
+                  className={errores.correo ? styles.inputError : ''}
+                />
+                {errores.correo && <span className={styles.fieldError}>{errores.correo}</span>}
               </div>
               <div className={styles.frow}>
                 <label>Celular</label>
-                <input name="celular" type="tel" value={form.celular} onChange={handleChange} placeholder="300 000 0000" required />
+                <input
+                  name="celular"
+                  type="tel"
+                  value={form.celular}
+                  onChange={handleChange}
+                  placeholder="3001234567"
+                  maxLength={10}
+                  className={errores.celular ? styles.inputError : ''}
+                />
+                {errores.celular && <span className={styles.fieldError}>{errores.celular}</span>}
               </div>
             </div>
 
@@ -176,7 +244,6 @@ export default function MeInteresa() {
                   name="acepta_politica"
                   checked={form.acepta_politica}
                   onChange={handleChange}
-                  required
                   style={{ marginTop: 3, flexShrink: 0 }}
                 />
                 <span>
@@ -187,6 +254,7 @@ export default function MeInteresa() {
                   {' '}del Hogar de Paso Alegría Gatuna, de conformidad con la Ley 1581 de 2012.
                 </span>
               </label>
+              {errores.acepta_politica && <span className={styles.fieldError}>{errores.acepta_politica}</span>}
             </div>
 
             <button type="submit" className={styles.submitBtn} disabled={enviando}>
