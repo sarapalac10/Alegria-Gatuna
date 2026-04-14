@@ -13,8 +13,8 @@ const FORM_INICIAL = {
 
 export default function AdminNuevoAnimal() {
   const [form, setForm] = useState(FORM_INICIAL)
-  const [fotoFile, setFotoFile] = useState(null)
-  const [fotoPreview, setFotoPreview] = useState(null)
+  const [fotosExistentes, setFotosExistentes] = useState([]) // URLs ya guardadas
+  const [fotosNuevas, setFotosNuevas] = useState([])         // { file, preview }
   const [guardando, setGuardando] = useState(false)
   const [exito, setExito] = useState(false)
   const [error, setError] = useState(null)
@@ -38,7 +38,13 @@ export default function AdminNuevoAnimal() {
           esterilizado: data.esterilizado, con_animales: data.con_animales,
           con_ninos: data.con_ninos, estado: data.estado,
         })
-        if (data.foto_url) setFotoPreview(data.foto_url)
+        // Cargar fotos existentes: foto_url + fotos[]
+        const existentes = []
+        if (data.foto_url) existentes.push(data.foto_url)
+        if (data.fotos?.length) {
+          data.fotos.forEach(url => { if (url !== data.foto_url) existentes.push(url) })
+        }
+        setFotosExistentes(existentes)
       })
   }, [animalId])
 
@@ -47,19 +53,25 @@ export default function AdminNuevoAnimal() {
     setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
-  function handleFoto(e) {
-    const file = e.target.files[0]
-    if (!file) return
-    setFotoFile(file)
-    setFotoPreview(URL.createObjectURL(file))
+  function handleFotos(e) {
+    const files = Array.from(e.target.files)
+    const nuevas = files.map(file => ({ file, preview: URL.createObjectURL(file) }))
+    setFotosNuevas(prev => [...prev, ...nuevas])
   }
 
-  async function subirFoto(id) {
-    if (!fotoFile) return null
-    const ext = fotoFile.name.split('.').pop()
-    const path = `${id}.${ext}`
-    const { error } = await supabase.storage.from('animales').upload(path, fotoFile, { upsert: true })
-    if (error) throw new Error('Error subiendo la foto: ' + error.message)
+  function quitarFotoExistente(url) {
+    setFotosExistentes(prev => prev.filter(u => u !== url))
+  }
+
+  function quitarFotoNueva(index) {
+    setFotosNuevas(prev => prev.filter((_, i) => i !== index))
+  }
+
+  async function subirFoto(id, file, index) {
+    const ext = file.name.split('.').pop()
+    const path = `${id}_${Date.now()}_${index}.${ext}`
+    const { error } = await supabase.storage.from('animales').upload(path, file, { upsert: true })
+    if (error) throw new Error('Error subiendo foto: ' + error.message)
     return supabase.storage.from('animales').getPublicUrl(path).data.publicUrl
   }
 
@@ -68,22 +80,31 @@ export default function AdminNuevoAnimal() {
     setGuardando(true)
     setError(null)
     try {
-      let foto_url = (!fotoFile && fotoPreview) ? fotoPreview : null
+      let id = animalId
 
+      // Insertar o actualizar datos básicos
       if (editando) {
-        if (fotoFile) foto_url = await subirFoto(animalId)
-        const { error } = await supabase.from('animales')
-          .update({ ...form, ...(foto_url !== null && { foto_url }) })
-          .eq('id', animalId)
+        const { error } = await supabase.from('animales').update(form).eq('id', animalId)
         if (error) throw error
       } else {
         const { data, error } = await supabase.from('animales').insert([form]).select().single()
         if (error) throw error
-        if (fotoFile) {
-          foto_url = await subirFoto(data.id)
-          await supabase.from('animales').update({ foto_url }).eq('id', data.id)
-        }
+        id = data.id
       }
+
+      // Subir fotos nuevas
+      const urlsNuevas = await Promise.all(
+        fotosNuevas.map((f, i) => subirFoto(id, f.file, i))
+      )
+
+      // Combinar fotos existentes + nuevas
+      const todasFotos = [...fotosExistentes, ...urlsNuevas]
+      const foto_url = todasFotos[0] || null
+
+      await supabase.from('animales').update({
+        foto_url,
+        fotos: todasFotos,
+      }).eq('id', id)
 
       setExito(true)
       setTimeout(() => navigate('/admin/animales'), 1500)
@@ -102,6 +123,8 @@ export default function AdminNuevoAnimal() {
     { name: 'con_ninos',     label: 'Compatible con niños' },
   ]
 
+  const totalFotos = fotosExistentes.length + fotosNuevas.length
+
   return (
     <div>
       <div className={styles.header}>
@@ -114,23 +137,38 @@ export default function AdminNuevoAnimal() {
 
       <form onSubmit={handleSubmit} className={styles.form}>
 
-        {/* Foto */}
-        <label className={styles.fotoLabel} htmlFor="foto-input">
-          {fotoPreview
-            ? <img src={fotoPreview} alt="preview" className={styles.fotoPreview} />
-            : <div className={styles.fotoDrop}>
-                <span className={styles.fotoIcon}>📷</span>
-                <p>Arrastra una foto o haz clic para seleccionar</p>
+        {/* Fotos múltiples */}
+        <div className={styles.frow}>
+          <label>Fotos ({totalFotos} agregada{totalFotos !== 1 ? 's' : ''})</label>
+
+          <div className={styles.fotosGrid}>
+            {/* Fotos existentes */}
+            {fotosExistentes.map((url, i) => (
+              <div key={url} className={styles.fotoItem}>
+                {i === 0 && <span className={styles.fotoPrincipal}>Principal</span>}
+                <img src={url} alt={`foto ${i + 1}`} className={styles.fotoThumb} />
+                <button type="button" className={styles.fotoQuitar} onClick={() => quitarFotoExistente(url)}>✕</button>
               </div>
-          }
-        </label>
-        <input id="foto-input" type="file" accept="image/*" onChange={handleFoto} className={styles.fotoInput} />
-        {fotoPreview && (
-          <button type="button" className={styles.fotoRemove}
-            onClick={() => { setFotoFile(null); setFotoPreview(null) }}>
-            Quitar foto
-          </button>
-        )}
+            ))}
+
+            {/* Fotos nuevas */}
+            {fotosNuevas.map((f, i) => (
+              <div key={i} className={styles.fotoItem}>
+                {fotosExistentes.length === 0 && i === 0 && <span className={styles.fotoPrincipal}>Principal</span>}
+                <img src={f.preview} alt={`nueva ${i + 1}`} className={styles.fotoThumb} />
+                <button type="button" className={styles.fotoQuitar} onClick={() => quitarFotoNueva(i)}>✕</button>
+              </div>
+            ))}
+
+            {/* Botón agregar */}
+            <label className={styles.fotoAgregar}>
+              <span>+</span>
+              <span className={styles.fotoAgregarLabel}>Agregar foto</span>
+              <input type="file" accept="image/*" multiple onChange={handleFotos} className={styles.fotoInput} />
+            </label>
+          </div>
+          <p className={styles.fotoHint}>La primera foto es la principal. Puedes agregar hasta 10 fotos.</p>
+        </div>
 
         {/* Básicos */}
         <div className={styles.twoCol}>
